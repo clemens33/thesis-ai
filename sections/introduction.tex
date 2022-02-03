@@ -1,0 +1,108 @@
+\documentclass[../main.tex]{subfiles}
+
+%\externaldocument[T-]{theoreticalbackground}
+
+\begin{document}
+\section{Introduction} \label{sec:introduction}
+%Your introduction has two main purposes: 1) to give an overview of the main points of your thesis, and 2) to awaken the reader’s interest. It is recommended to rewrite the introduction one last time when the writing is done, to ensure that it connects well with your conclusion [https://sokogskriv.no/en/writing/structure-and-argumentation/structuring-a-thesis]
+
+Non-deep learning machine learning methods like decision tree-based architectures such as random forest (\acs{rf}) or gradient boosting decision tree (\acs{gbdt}) are still very much relevant or even state of the art depending on domain and data in the field of machine learning. When looking at recent trends for applied machine learning architectures and methods ranked among data scientists, RF and GBDT are respectively top 2 and 3 of chosen methods ranking above deep learning methods like neural networks \cite{c_kaggle2020}.
+\newline
+
+It might not be surprising as decision tree-based methods are performing well on structured or tabular data which are relevant in many business-related applications. On the other hand, for unstructured data, like text, audio, or image, which account for over 80\% of the worldwide data \cite{c_amount_unstructureddata}, deep-learning has shown great success and established a de facto standard \cite{he_deep_2015}, \cite{devlin_bert_2019}. These canonical architectures can learn or encode raw unstructured data in a meaningful and efficient representation, which is critical for solving subsequent problems.
+\newline
+
+Even though there is no common definition for structured or tabular data, data that is being organized in tabular form of samples as rows and features as columns is referred to as tabular data. Each sample consists of the same set of features. Unlike usual unstructured data, for tabular data, the available features can be a mixture of different data types like numerical, ordinal, categorical, and so on. Additionally, the lack of prior knowledge and sparsity, locally missing data for features, adds an additional challenge \cite{c_struc_vs_unstruc}, \cite{shwartz-ziv_tabular_2021}.
+\newline
+
+In structured or tabular data raw features (e.g. income, age, nationality) often already represent a meaningful concept. The power of canonical deep learning architectures learning efficient representation based on large amount of data might not be as important as in unstructured data like image or audio, at least for the concrete task to solve. The lack of appropriate inductive bias (e.g. being able to select relevant features) for deep learning architectures in the context of tabular data often leads to over-parameterized and complex models \cite{Goodfellow-et-al-2016}, \cite{ke_tabnn_2018}. 
+
+Even though tabular data and deep learning-based architectures might not be the perfect match it is worthwhile to apply and explore its potential. Besides the obvious task and motivation to improve the performance especially on large amount of data, deep learning offers gradient-based end-to-end learning which more easily enables architectures to integrate tabular data with any other unstructured data type (e.g combined with image data). Additionally, the ability to learn efficient and meaningful representations more easily enables domain adaption between data and tasks.
+This enables deep learning architectures to be applied on tabular data for transfer learning, generative modeling, or semi-supervised learning \cite{arik_tabnet_2020}.
+\newline
+
+Similar to tabular data in the data domain of drug discovery for many tasks especially activity prediction, decision-tree based architectures like RF or GBDT are still very relevant. A recent extensive study comparing a wide area of machine learning methods including non deep learning and deep learning architectures, came to the conclusion that RF and GBDT perform reasonably well on most tasks and even achieve state of the art results on drug discovery classification tasks \cite{jiang_could_2021}. This seems to be an indication that RF and GBDT are a more than reasonable candidate for both tabular data and drug discovery tasks alike. 
+\newline
+
+Considering the mentioned additional potential of deep learning the motivation to explore newly emerging deep learning architectures and work specialized on tabular data in the context of drug discovery is an obvious motivation. 
+One of recent proposed canonical deep learning architectures claiming to perform better or on par with decision-tree based architectures is "TabNet: Attentive Interpretable Tabular Learning" \cite{arik_tabnet_2020} proposed by Google Cloud AI end of 2019. Beside the promising results when compared to decision-tree based architectures the novel architecture uses a learnable feature selection mask, which can be used to explain which features were relevant for a given task. TabNet is described in detail within section \ref{sec:theory}.
+This newly promising architecture and the relevant potential of deep learning for the drug discovery domain leads to this works objectives, described in detail in section \ref{ssec:objectives} and is the subject of this master thesis.
+\newline
+
+\subsection{Related Work}
+
+Beside TabNet other recent works have explored and proposed specialized canonical deep learning architectures for tabular data. All of them have in common that they are inspired by decision tree-based architectures or use them as a baseline or reference for comparison. The following works are only briefly mentioned here, but are not focus of this work or explained in more detail.
+\par
+\textbf{NODE - Neural Oblivious Decision Ensembles} \cite{popov_neural_2019}, uses oblivious decision trees, which are differentiable. The complete architecture is based on an ensemble of differentiable trees.
+\par
+\textbf{DNF-NET - Disjunctive Normal Form Networks} \cite{abutbul_dnf-net_2020}, a novel architecture using disjunctive normal neural form blocks, feature-selection masks and spatial localization weighting emulating decision-trees.
+\par
+\textbf{RLN - Regularization Learning Networks} \cite{shavitt_regularization_2018}, which applies regularization coefficient as hyperparameters to each weight in a neural network. Those hyperparameters are tuned minimizing a new Counterfactual Loss. 
+\par
+\textbf{Regularization is all you Need} \cite{kadra_regularization_2021}, proposing the usage of a mixture of 13 known regularization methods for plain \ac{mlp} to be able to achieve state of the art performance on a large variate of datasets.
+\newline
+
+To the best of the authors knowledge, TabNet has not been extensively explored or studied in the context of drug discovery. The closest related works were two recent reported Kaggle challenge participants. Those used TabNet in drug discovery related datasets like Mechanism of Action (MoA) \cite{alessandro_mechanism_nodate}, \cite{baosenguo_kaggle-moa_2021}. Both only used TabNet as one of many architectures within an ensemble of models. The second mentioned work even claiming to have achieved the 2nd place out of over 4000 competitors. These promising results and the overall novel canonical deep learning architecture led to the author to explore TabNet in detail within this master-thesis.
+
+
+\subsection{Objectives} \label{ssec:objectives}
+
+This master-thesis tries to answer the question if the TabNet is a viable option within the drug discovery domain. Beside the predictive performance another objective of this work is also to look into its capability to be used as a self-interpretable architecture. This leads to the following concrete objectives.
+
+\begin{itemize}
+  \item \textbf{Compare the predictive performance of TabNet on various drug discovery datasets.}
+  \begin{itemize}
+     \item Datasets chosen are BBBP, BASE, HIV, SIDER and hERG which are drug activity prediction datasets. Datasets are further described in section \ref{sec:datasets}.
+
+     %\item Test the capability of TabNets feature selection when adding noise/random features to the datasets compared to a baseline MLP
+  \end{itemize}
+  \item \textbf{Empirically analyze and compare TabNet's build in interpretability capabilities. }
+  \begin{itemize}
+     \item The hERG datasets (refer to section \ref{ssec:herg_dataset}) and known relevant molecular substructures are used as a baseline
+     \item As metric, the ability to rank relevant substructures and their atoms first, is used
+     \item TabNet should further be compared to other interpretability methods like Integrated Gradients, Shapley Values Sampling or Saliency. The detailed setup is described in section \ref{ssec:interpret_experiment} - Referred methods are explained in section \ref{ssec:interpret_methods}.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Structure and Outline}
+
+This master-thesis is divided into the following sections. 
+The introduction section \ref{sec:introduction} describes the background and motivation why this topic and architecture was chosen and should encourage the reader to continue exploring this work.
+The theoretical background section \ref{sec:theory} covers relevant topics and theory and for this master thesis. 
+
+\begin{itemize}
+   \item \textbf{Machine Learning (\acs{ml})} (section \ref{ssec:machine_learning}) 
+      \begin{itemize}
+         \item \textbf{Decision-tree based methods}, with a focus on random forest (\acs{rf}) and gradient-boosting decision tree (\acs{gbdt}).   
+         \item \textbf{Deep Learning (\acs{dl})}, describes the background for artificial neural networks (\acs{ann}), multilayer perceptron (\acs{mlp}) and training using gradient descent and backpropagation.
+      \end{itemize}
+   \item \textbf{Attentive Interpretable Tabular Learning (TabNet)} (section \ref{ssec:tabnet}), gives a detailed insight into the TabNet architecture with its built-in interpretability capabilities. 
+   \item \textbf{Interpretable and Explainable Machine Learning} (section \ref{ssec:interpret_methods}), tries to give an overview of various methods to explaining machine learning models.
+      \begin{itemize}
+         \item Gradient based methods like integrated gradients (\acs{ig}) or saliency which are especially relevant explaining deep learning related methods.
+         \item Perturbation base methods like Shapley value sampling and feature permutation which can be applied to arbitrary machine learning methods.
+      \end{itemize}
+   \item \textbf{Drug Discovery} (section \ref{ssec:drug_discovery}), gives a brief overview of the drug discovery process. Relevant applications like quantitative structure-activity relationship (\acs{qsar}) modelling are explained as well as used molecule descriptors.     
+\end{itemize}
+
+In section \ref{sec:datasets}, for this work chosen drug discovery related datasets and their backgrounds are explained. Datasets included are \acs{bbbp}, BASE, \acs{hiv}, \acs{sider} and hERG. The later one is also used in the context of interpretability for which the relevant baseline and its systematic is described.
+\newline
+
+The concrete implementations and detailed information are presented in section \ref{sec:approach} "Approach". This section describes the general setup as well as the verification of the reimplementation of TabNet prior to furter experiments. 
+\newline
+
+In "Experiments and Results" (section \ref{sec:results}), the drug discovery related experiments and their results are presented in detail. It includes the detailed process including hyperparameter selection as well as how achieved results were measured and compared.
+
+In section \ref{sec:discussion} and \ref{sec:conclusion} the discussion and conclusion regarding the objectives of this work is laid out.
+
+\subsection{Notation}
+
+If not explicitly defined otherwise in a given context the following mathematical notation is used within this master thesis.
+
+Lower case letters like $x$ or $y$ denote scalar values like $7$ or $0.98$. Bold letters like $\mathbf{x}$ or $\mathbf{w}$ relate to vectors. Column vector notation is used in the form $\mathbf{x} = [x_1, x_2, \ldots, x_n]^T$ using transpose $T$ for better readability. Bold upper case letters like $\mathbf{W}$ or $\mathbf{X}$ denote matrices. 
+
+Dimensions are described using upper case letters like $N$ or $D$. Using dimensions a size of vector is described as $\mathbf{x} \in \mathbb{R}^D$ meaning a vector having $D$ real number elements. Similarly dimensions of matrices are given in the form $\mathbf{W} \in \mathbb{R}^{N \times D}$ describing a matrix having $N$ rows or samples each represented by $D$ features.
+
+\newpage
+
+\end{document}

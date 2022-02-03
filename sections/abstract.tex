@@ -1,0 +1,37 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\renewcommand\abstractname{Abstract}
+\begin{abstract}
+\noindent
+    Despite the success of deep learning (DL) architectures in recent years, decision tree (DT) based methods like random forests (RF) or gradient boosting decision trees (GBDT) still perform well in domains like tabular data. Similarly in the context of drug discovery, DT based methods repeatedly have shown to achieve competitive results. 
+
+    Recently new DL based architectures have been introduced in the attempt to resemble the success of DT based methods on tabular data. One of them is "TabNet: Attentive Interpretable Tabular Learning" introduced in 2019 by Arik S. and Pfister T. \cite{arik_tabnet_2020}. TabNet by design does feature selection and offers direct interpretability utilizing sparsemax, a sparse alternative to softmax. Reported results surpassed or were on par on various datasets when compared to DT based methods like GBDT. Based on reported results and the relevance of DT based methods in the field of drug discovery, TabNet has been extensively studied in context of drug discovery within this work.
+
+    % Different drug discovery datasets, BBBP, BACE, HIV and SIDER have been used to compare TabNet with a baseline multilayer perceptron (MLP) and various reference results from literature including RF and GBDT. Molecules were represented using extended connectivity fingerprints (ECFP) with various folding sizes resulting in multiple experiments for each dataset. Bayesian hyperparameter tuning was used to determine optimal hyperparameters. To determine final results multiple runs with random splits have been used. In none of the used datasets TabNet could outperform a baseline MLP or achieve results similar to RF or GBDT. Relative to the baseline MLP, TabNet performed best on the BBBP dataset (mean AUROC: 0.891 ± 0.030 TabNet, 0.913 ± 0.022 MLP) and worst on the SIDER dataset (mean AUROC: 0.582 ± 0.027 TabNet, 0.644 ± 0.018 MLP). 
+    Different drug discovery datasets, BBBP, BACE, HIV and SIDER have been used to compare TabNet with a baseline multilayer perceptron (MLP) and various reference results from literature including RF and GBDT. In none of the used datasets TabNet could outperform a baseline MLP or achieve results similar to RF or GBDT. Relative to the baseline MLP, TabNet performed worst on the SIDER dataset and best on the BBBP dataset with mean area under-ROC-curve (AUC) of $\sim$0.89±0.03 for TabNet and $\sim$0.91±0.02 for the MLP. 
+    %It performed worst on the SIDER dataset with mean AUC of $\sim 0.58 \text{ ± } 0.03$ for TabNet and $\sim0.64 \text{ ± } 0.02$ for the MLP. 
+
+    Furthermore in this work an attempt was made to empirically measure TabNet's build in interpretability capabilities in context of drug discovery. Following the experiment setup of recent work by Schimunek J. et al. in 2021 \cite{schimunek_poster_2021}, the drug discovery hERG dataset together with known relevant baseline molecules have been used. The task was to rank most relevant atoms of the baseline molecules first. Results have been compared to a MLP, RF and GBDT together with various interpretability methods including integrated gradients, saliency and Shapley values sampling. In this particular experiment setup TabNet was not able to rank most relevant atoms first achieving a mean AUC of $\sim$0.49±0.06. The best compared method was a MLP together with Shapley values sampling resulting in a mean AUC of $\sim$0.70±0.01.
+
+    All experiments results including code, hyperparameters, metrics as well as the TabNet reimplementation is made publicly available to evaluate this work or to try out TabNet in a different domain.
+
+\end{abstract}
+
+% \newpage
+% \renewcommand\abstractname{Zusammenfassung}
+% \begin{abstract}
+% \noindent
+%     Trotz des großen Erfolgs von Deep Learning (DL) in den letzten Jahren, erzielen auf Entscheidungsbäume (EB) basierte Methoden wie Random Forests (RF) oder Gradient Boosting Decision Trees (GBDT) in Bereichen mit tabularen Daten  immer noch sehr gute Ergebnisse. Analog im Bereich der Pharmaforschung haben EB-basierte Methoden wiederholt gezeigt, dass sie relevante Ergebnisse erzielen.
+
+%     Neue kürzlich auf DL basierende Architekturen wurden entwickelt, um den Erfolg von EB-basierten Methoden auf tabularen Daten nachzuahmen bzw. zu übertreffen. Eine davon ist das 2019 eingeführte „TabNet: Attentive Interpretable Tabular Learning“ [7]. TabNet integriert eine Dateneigenschaftsauswahl und bietet direkte Interpretierbarkeit unter Verwendung von Sparsemax, einer Alternative zu Softmax deren Ausgabe dünnbesetzt ist. Die berichteten Ergebnisse übertrafen oder lagen zumindest gleichauf im Vergleich zu EB-basierten Methoden wie GBDT. Basierend auf den gemeldeten Ergebnissen und der Relevanz von DT-basierten Methoden in der Pharmaforschung wurde TabNet im Kontext der Pharmaforschung bzw. Wirksameingehend untersucht.
+
+%     Verschiedene bekannte Datensätze im Bereich der Pharmaforschung darunter BBBP, BACE, HIV und SIDER wurden verwendet, um TabNet mit einem Basislinien-Mehrschichtperzeptron (MLP) und verschiedenen Referenzergebnissen aus der Literatur, einschließlich RF und GBDT, zu vergleichen. In keinem der verwendeten Datensätze konnte TabNet einen Baseline-MLP übertreffen oder ähnliche Ergebnisse wie RF oder GBDT erzielen. Im Vergleich zum Baseline-MLP schnitt TabNet beim SIDER-Datensatz am schlechtesten und beim BBBP-Datensatz am besten ab, mit einer mittleren Fläche unter der ROC-Kurve (AUC) von ∼ 0,89 ± 0,03 für TabNet und ∼ 0,91 ± 0,02 für MLP.
+
+%     Darüber hinaus wurde in dieser Arbeit versucht, die eingebauten Interpretierbarkeitsfähigkeiten von TabNet im Kontext der Wirkstoffforschung empirisch zu messen. In Anlehnung an den experimentellen Aufbau neuerer Arbeiten [91] wurde der hERG-Datensatz zur Wirkstoffentdeckung zusammen mit bekannten relevanten Basismolekülen verwendet. Die Aufgabe bestand darin, die relevantesten Atome der Basismoleküle zuerst einzuordnen. Die Ergebnisse wurden mit einem MLP, RF und GBDT zusammen mit verschiedenen Interpretierbarkeitsmethoden verglichen, einschließlich integrierter Gradienten, Salienz und Shapley-Werte-Sampling. In diesem speziellen Versuchsaufbau war TabNet nicht in der Lage, die relevantesten Atome zuerst einzuordnen und eine mittlere AUC von ∼ 0,49 ± 0,06 zu erreichen. Die am besten verglichene Methode war eine MLP zusammen mit Shapley-Werten, die zu einer mittleren AUC von ∼ 0,70 ± 0,01 führten.
+
+%     Alle Experimentergebnisse einschließlich Code, Hyperparameter, Metriken sowie die TabNet-Reimplementierung werden öffentlich zugänglich gemacht, um diese Arbeit zu bewerten oder TabNet in einer anderen Domäne zu verwenden.
+    
+% \end{abstract}
+
+\end{document}

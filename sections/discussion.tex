@@ -1,0 +1,39 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+
+\section{Discussion} \label{sec:discussion}
+
+\subsection{Performance}
+
+Using 5 different datasets within the drug discovery domain performing close to 1000 experiment runs (including hyperparameter search and repeated random split runs) it could not be shown that TabNet performs better than other ML architectures within this data domain using the described approach and scenario. 
+\newline
+
+The first experiment using BBBP dataset (refer to section \ref{sec:datasets}) was repeated using 3 different ECFP fingerprint folding sizes (512, 4096 and 12288). Similar as described in the original TabNet paper \cite{arik_tabnet_2020}, the idea was that due to feature selection, TabNet potentially has a higher learning capacity and can focus easier on more salient features. Due to the nature of ECFP fingerprints becoming more sparse with larger folding sizes TabNet potentially can focus better on salient (non sparse) entries or features. But comparing the results for different folding/feature dimension sizes, using more feature dimensions seems not to improve the results for TabNet substantially. In fact an in parallel trained MLP seems to benefit more from increased folding size than TabNet. Therefore subsequent datasets and experiments were only trained using two different folding or feature dimension sizes (512 and 4096). 
+\newline
+
+For none of the evaluated datasets TabNet was within the top performing architectures. Relative to a trained baseline MLP, TabNet performed best for the BBBP dataset as seen in figure \ref{tbl:tabnet_bbbp_results}. It performed worst using the HIV dataset as shown in figure \ref{tbl:tabnet_hiv_results}. As the performance was not only compared to reference work but also to a baseline MLP, which was trained using the same environment, data preparation and setup, it can be argued that potential inaccuracies got eliminated or at least minimized. In fact when looking at the performance of the trained baseline MLPs and comparing it to reported reference DNN results, some of them (e.g. for SIDER refer to figure \ref{tbl:tabnet_sider_results}) could be improved.
+
+\subsubsection{Limitations}
+
+Compared to a typical MLP, TabNet has more hyperparameters to optimize. The hyperparameter search space used was inspired by the original paper, but still the number of search runs (25) using Bayesian optimization might not be sufficient to find optimal TabNet hyperparameter. Investing the same time and effort in training TabNet and baseline MLP models, MLP based models and their found hyperparameters outperformed corresponding TabNet models. Due to limited computational resources, further optimization runs were not feasible. Also the original TabNet paper \cite{arik_tabnet_2020} despite describing the search space for hyperparameters did not  mention the method or the number of training runs to determine the optimal hyperparameters for the corresponding datasets. Therefore it remains unclear whether TabNets performance would significantly increase when investing more into hyperparameter search.
+\newline 
+
+\subsection{Interpretability}
+
+Applying the described experiment setup (refer to section \ref{ssec:interpret_experiment}), results indicate that using TabNet's feature selection mask for identifying most relevant atoms is not well suited compared to other methods. 
+\newline
+
+Shapley value sampling performed best ranking most relevant atoms, independent of the underlying ML architecture. Overall using a simple MLP as ML architecture together with Shapley value sampling achieved the best performance ranking relevant atoms. The second best method was integrated gradient together with an MLP. Results indicate that both methods are suited to rank relevant atoms, this is in line with results from Schimunek et al. \cite{schimunek_poster_2021}.
+Furthermore DT based methods (RF and GBDT) have been analyzed and surprisingly, despite achieving a slightly better prediction result, together with Shapley value sampling performed worse in ranking most relevant atoms. 
+
+\subsubsection{Limitations} \label{sssec:interpret_experiment_limits}
+
+One limitation or argument why the used experiment setup might not be best suited for TabNet is the possibility, that the counterfactual thinking approach (described in section \ref{ssec:interpret_experiment}) might not match with TabNets feature selection mask. Within the counterfactual thinking approach baseline atoms are supposed to still be ranked high, despite other atoms being more important for a concrete prediction result. If TabNets feature selection mask (being sparse) does not select some relevant baseline atoms at all those can not be ranked high or considered at all. Results in table \ref{tbl:herg_tabnet_interpret_results} partially confirm this, but in edge cases, when looking at the minimum and maximum achieved ranking score, TabNet could in some experiment runs rank relevant atoms appropriately. This is also reflected in the higher variance of the ranking score when using TabNet compared to the baseline MLP.
+\newline 
+
+Furthermore, the output of TabNet consists of the actual prediction and the corresponding sparse feature selection mask with its feature importance values related to the prediction. Therefore TabNets feature selection mask only explains why a certain feature was selected for the actual prediction. Other interpretability methods like Shapley value sampling or integrated gradients (applied onto a trained TabNet model) give feature importance value for both outputs, the prediction and the feature selection mask. It follows that those methods can attribute importance to features which might be relevant for TabNets feature selection process itself. For this reason comparative results of TabNet's feature selection mask with interpretability methods applied onto TabNet (as shown in figure \ref{tbl:herg_tabnet_interpret_results}) should be considered with caution. 
+\newline
+
+Another general limitation of the overall assessment of TabNet's interpretability capabilities, is the validity of the chosen baseline and experiment setup. The baseline consists of 5 relevant components or molecules. Additional and more baseline molecules could increase the experiments informative value. 
+
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[../main.tex]{subfiles}
+\begin{document}
+\section{Conclusion and Outlook} \label{sec:conclusion}
+
+As shown in the original paper \cite{arik_tabnet_2020} TabNet outperformed and was compared especially to decision tree (DT) based methods like Gradient Boosting Decision Trees (GBDT) using various tabular datasets. As DT based methods in many cases still achieve state of the art results within various drug discovery tasks, TabNet seemed a potential fitting architecture. 
+\newline
+
+In this master thesis the TabNet architecture has been studied extensively using various datasets in the context of drug discovery. Results indicate that TabNets predictive performance does not reach the level of a baseline MLP and other ML methods like Random Forests (RF) or Gradient Boosting Decision Trees (GBDT) over a set of 5 different drug discovery tasks. Therefore it could not be confirmed, that it is an exceptionally fitting architecture for this data domain. 
+\newline
+
+As TabNet by design offers built-in feature selection and feature attribution, which is a direct additional output in the forward path, an attempt was made to empirically measure and compare it with other interpretability methods. Within the chosen scenario, to rank most relevant atoms in a molecule first, other methods like Shapley value sampling or integrated gradients together with a MLP outperformed TabNet. But as discussed in section \ref{sssec:interpret_experiment_limits} those results should be considered with caution as it is highly dependent on the experiment setup and the baseline, defining which atoms are actually important within a molecule. Therefore a final statement whether TabNet is suitable as an interpretability method within the drug discovery domain can not be made based on the chosen scenario.
+\newline
+
+Even though the overall results of TabNet did not match the expectation it is still a new architecture with many novel features and ideas quite different from other methods. Especially the attempt to select features and be interpretable by design is interesting for a deep learning architecture. Furthermore, the possibility to end-to-end train TabNet or add other data types to handle multi-modal data and still offer direct interpretability could be appropriate for various scenarios. Similarly as done in past ML challenges, TabNet due to its novel and different structure, could be a suitable candidate for an additional method within an ensemble of ML models. 
+\newline
+
+Considering all the results and experience with TabNet the following aspects could be bases for further research. 
+
+As TabNet is utilizing sparsemax for feature selection and attribution, further developments and alternatives like $\alpha-$entmax (refer to section \ref{sssec:sparsemax}) would be an obvious choice for additional experiments. Replacing sparsemax in TabNet with $\alpha-$entmax variants and empirically measure the impact would be interesting. Additionally, directly learning $\alpha$ in $\alpha-$entmax as a parameter (not hyperparameter) could be beneficial. 
+Also removing or adapting the relaxation hyperparameter $\gamma$, which affects to what extend features are reused in multiple decision steps within TabNet, would be an option. Effectively utilizing $\gamma$ requires a prior knowledge about the training data and its features. If this is not available one possibility could be to instead train $\gamma$ as a parameter. This would eliminate one hyperparameter and the effect could be subject to one research question.
+\newline
+
+Even though in one of the experiments (using hERG) multiple molecule fingerprints have been used in a combined way, an extensive experiment setup comparing various molecule descriptors and fingerprints together with TabNet could provide additional insights. As in all other experiments extended connectivity fingerprints (ECFP) were used (although with different fingerprint sizes), further experiments could clarify the impact of this setup. 
+Furthermore, as TabNet sparsely selects most relevant features, using multiple molecule descriptors or fingerprints in a combined way could be an option to find out which one is the most relevant (at least for TabNet). This setup could additional be explored and compared with a other ML methods together with interpretability methods like Shapley value sampling or integrated gradients. 
+\newline
+
+A different research direction would be to explore and utilize optimized sparse linear transformation\footnote{an example would be Pytorch sparse implementation \url{https://pytorch.org/docs/stable/sparse.html}} within TabNet. As TabNet heaviliy utilizes sparsemax and depending on the hyperparameter chosen has many intermediate sparse matrices, using optimized sparse linear transformation could potentially lead to very compact, efficient and fast models.
+\newline
+
+Hopefully this work provides a useful insight into TabNet within the context of drug discovery and points out potential limitations, but also gives direction and inspiration for further research or applications involving this novel and interesting deep learning architecture.
+
+\end{document}

@@ -1,0 +1,146 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{xr}
+\usepackage[table]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{hyphenat}
+\hyphenation{Mathe-matik wieder-gewinnen}
+\usepackage{graphicx}
+\usepackage{svg}
+\usepackage{csquotes}
+\usepackage{tablefootnote}
+%\usepackage{hyperref}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{abstract}
+\usepackage{algorithm,algpseudocode}
+
+\usepackage{amsmath}
+\numberwithin{equation}{subsection}
+\usepackage{amssymb}
+\usepackage{booktabs,multirow}
+
+\usepackage{epigraph} %for quotes
+
+\usepackage[perpage,bottom]{footmisc} % footnotes numbering starts with 1
+\usepackage{physics}
+\usepackage{todonotes}
+\usepackage{lmodern}
+\usepackage{textcomp} %for \texttildelow as ~
+% bibliography
+\usepackage[citestyle=numeric]{biblatex} %authoryear
+%https://www.overleaf.com/learn/latex/Biblatex_citation_styles
+%\bibliography{bib.bib, references.bib} 
+\bibliography{main.bib, sections/results.bib, sections/approach.bib, sections/introduction.bib, sections/theoreticalbackground.bib, sections/dataset.bib}
+
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+
+\usepackage{acro} % Acronyms / Abbreviations
+
+\input{acronyms.tex}
+
+\usepackage{subfiles}
+\graphicspath{{img/}{../img/}{fig/}{../fig/}} %{pdf_fig}{../pdf_fig}
+
+\usepackage[%
+    a4paper,
+    %includeheadfoot,
+    head=\baselineskip,  % distance from bottom of header to block of text aka \headsep e.g. \baselineskip
+    foot=2.3cm,  % distance from top of footer to block of text aka \footskip
+    headheight=20pt,     % height for the header block (no equivalent for footer)
+    marginparwidth=2cm,  % right marginal note width
+    marginparsep=2mm,    % distance from text block to marginal note box
+    top=2.5cm,           % distance of the text block from the top of the page
+    bottom=3cm,
+    left=2.5cm,
+    right=2.5cm,
+]{geometry}
+
+\setcounter{secnumdepth}{5}
+\setcounter{tocdepth}{5}
+
+\usepackage{titlesec}
+\newcommand{\sectionbreak}{\clearpage}
+
+\newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+
+% get names into variable to change in whole file if needed
+
+\newcommand{\somecommand}{Text that should be used}
+\newcommand{\around}{{\raise.17ex\hbox{$\scriptstyle\mathtt{\sim}$}}}
+
+\definecolor{light-gray}{gray}{0.95}
+
+% center X columns in tables
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\usepackage{titleps,kantlipsum}
+\newpagestyle{mypage}{%
+  \headrule
+  \sethead{\MakeUppercase{\thesection\quad \sectiontitle}}{}{\thesubsection\quad \subsectiontitle}
+  \setfoot{}{\thepage}{}
+  \footrule
+}
+\settitlemarks{section,subsection,subsubsection}
+\newpagestyle{myempty}{%
+  \sethead{}{}{}
+  \setfoot{}{}{}
+}
+
+\makeatletter
+% Axel Sommerfeldt [2007/01/07]
+\providecommand*\AtBeginEnvironment[1]{%
+   \@ifundefined{#1}%
+     {\@latex@error{Environment #1 undefined}\@ehc
+      \@gobble}%
+     {\@ifundefined{ABE@env@#1}%
+        {\expandafter\let\csname ABE@env@#1\expandafter\endcsname
+           \csname #1\endcsname
+         \expandafter\let\csname ABE@hook@#1\endcsname\@empty
+         \@namedef{#1}{\@nameuse{ABE@hook@#1}\@nameuse{ABE@env@#1}}}%
+        {}%
+  \expandafter\g@addto@macro\csname ABE@hook@#1\endcsname}}
+\@onlypreamble\AtBeginEnvironment
+\makeatother
+ 
+%\AtBeginEnvironment{tabular}{\ttfamily}
+
+\begin{document}
+
+\subfile{sections/titlepage.tex}
+
+\pagestyle{myempty}
+
+\newpage\null\thispagestyle{empty}\newpage
+
+\tableofcontents
+%\newpage\null\thispagestyle{empty}\newpage
+%\newpage\null\thispagestyle{empty}\newpage
+
+\subfile{sections/acknowledgement.tex}
+\newpage\null\thispagestyle{empty}\newpage
+\subfile{sections/abstract.tex}
+\newpage\null\thispagestyle{empty}\newpage
+
+\pagestyle{mypage}
+
+%this is just a suggestion of how to structure your MT
+
+\subfile{sections/introduction.tex}
+\subfile{sections/theoreticalbackground.tex}
+\subfile{sections/dataset.tex}
+\subfile{sections/approach.tex}
+\subfile{sections/results.tex}
+\subfile{sections/discussion.tex}
+\subfile{sections/conclusion.tex}
+
+\newpage
+\pagestyle{myempty}
+
+\subfile{sections/bibliographyfigures.tex}
+\subfile{sections/statutorydeclaration.tex}
+
+\end{document}
